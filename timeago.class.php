@@ -11,28 +11,36 @@ class get_timeago{
     $this->ago = "";
   }
 
-  function get_lang($lang){
+  function get_lang($lang, $r = ""){
     $array = array(
       //Español
       "es" => array("less"=>"Hace menos de 1 segundo",
-                   "year"=>"a&ntilde;o",
-                   "month"=>"mes",
-                   "day"=>"d&iacute;a",
-                   "hour"=>"hora",
-                   "minute"=>"minuto",
-                   "second"=>"segundo",
-                   "ago"=>"",
-                   "about"=>"Hace"),
+                   "year"=>"Hace un a&ntilde;o",
+                   "month"=>"Hace un mes",
+                   "day"=>"Hace un d&iacute;a",
+                   "hour"=>"Hace una hora",
+                   "minute"=>"Hace un minuto",
+                   "second"=>"Hace un segundo"),
+      "es2" => array("year", "Hace $r años",
+                   "month"=>"Hace $r meses",
+                   "day"=>"Hace $r d&iacute;as",
+                   "hour"=>"Hace $r horas",
+                   "minute"=>"Hace $r minutos",
+                   "second"=>"Hace $r segundos"),
       //English
       "en" => array("less"=>"less than 1 second ago",
-                   "year"=>"year",
-                   "month"=>"month",
-                   "day"=>"day",
-                   "hour"=>"hour",
-                   "minute"=>"minute",
-                   "second"=>"second",
-                   "ago"=>"ago",
-                   "about"=>"about")
+                   "year"=>"about 1 year ago",
+                   "month"=>"about 1 month ago",
+                   "day"=>"about 1 day ago",
+                   "hour"=>"about 1 hour ago",
+                   "minute"=>"about 1 minute ago",
+                   "second"=>"about 1 second ago"),
+      "en2" => array("year"=>"about $r years ago",
+                   "month"=>"about $r months ago",
+                   "day"=>"about $r days ago",
+                   "hour"=>"about $r hours ago",
+                   "minute"=>"about $r minutes ago",
+                   "second"=>"about $r seconds ago")
       );
 
     return $array[$lang];
@@ -45,26 +53,19 @@ class get_timeago{
     if($strtotime < 1)
       return $lan['less'];
     
-    
-    $artime = array(self::$_Year  =>  $lan['year'],
-                    self::$_Month =>  $lan['month'],
-                    self::$_Day   =>  $lan['day'],
-                    self::$_Hour  =>  $lan['hour'],
-                    self::$_Minute=>  $lan['minute'],
-                    self::$seconds=>  $lan['second']);
+    $artime = array(self::$_Year  =>  'year',
+                    self::$_Month =>  'month',
+                    self::$_Day   =>  'day',
+                    self::$_Hour  =>  'hour',
+                    self::$_Minute=>  'minute',
+                    self::$seconds=>  'second');
     
     foreach($artime as $s => $string){
       $day = $strtotime / $s;
       if($day >= 1){
         $r = round($day);
-        $msj = "";
-        if($lang == "es" && $string == "mes")
-          $msj = ($r > 1) ? "es" : '';
-        else
-          $msj = ($r > 1) ? "s" : '';
-        if($lang == "en")
-          $msj = ($r > 1) ? 's' : '';
-        return $lan['about'].' '.$r.' '.$string.$msj.' '.$lan['ago'];
+        $_get = self::get_lang(($r > 1) ? $lang."2" : $lang, $r);
+        return $_get[$string];
       }
     }
   }
