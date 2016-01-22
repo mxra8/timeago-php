@@ -33,10 +33,8 @@ echo $timeago->timeago("2016/01/19 15:31:16", "es");
 ```
 
 #Changes (versions)
-1.0 Create timeago.class.php
+1.2 Can add more languages to the function get_lan
 
 1.1 Spanish Version Added to the class get_timeago on timeago.class.php
 
-
-#Known bugs
-- Can't add more languages
+1.0 Create timeago.class.php
